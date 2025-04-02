@@ -1,4 +1,4 @@
-part of yandex_mapkit_lite;
+part of '../../yandex_mapkit_lite.dart';
 
 /// Map logo alignment.
 class MapAlignment extends Equatable {

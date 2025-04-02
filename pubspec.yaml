@@ -4,18 +4,18 @@ version: 2.0.3
 homepage: https://github.com/surfstudio/yandex-mapkit-lite-flutter
 
 environment:
-  sdk: ">=2.12.0 <4.0.0"
+  sdk: ">=3.0.0 <4.0.0"
   flutter: ">=3.0.0"
 
 dependencies:
-  flutter_plugin_android_lifecycle: ^2.0.15
-  equatable: ^2.0.5
-  collection: ^1.17.1
+  flutter_plugin_android_lifecycle: ^2.0.27
+  equatable: ^2.0.7
+  collection: ^1.19.1
   flutter:
     sdk: flutter
 
 dev_dependencies:
-  flutter_lints: ^2.0.2
+  flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
 

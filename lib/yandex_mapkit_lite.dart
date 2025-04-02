@@ -29,6 +29,7 @@ part 'src/types/geometry_objects/polyline.dart';
 part 'src/types/geometry_objects/polygon.dart';
 part 'src/types/localized_value.dart';
 part 'src/types/map_alignment.dart';
+part 'src/types/custom_map_alignment.dart';
 part 'src/types/map_animation.dart';
 part 'src/types/map_objects/circle_map_object.dart';
 part 'src/types/map_objects/clusterized_placemark_collection.dart';

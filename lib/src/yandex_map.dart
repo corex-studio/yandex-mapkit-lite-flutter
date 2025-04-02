@@ -1,4 +1,4 @@
-part of yandex_mapkit_lite;
+part of '../yandex_mapkit_lite.dart';
 
 /// Android specific settings for [YandexMap].
 class AndroidYandexMap {
@@ -27,8 +27,15 @@ class YandexMap extends StatefulWidget {
       this.fastTapEnabled = false,
       this.mode2DEnabled = false,
       this.logoAlignment = const MapAlignment(
-          horizontal: HorizontalAlignment.right,
-          vertical: VerticalAlignment.bottom),
+        horizontal: HorizontalAlignment.right,
+        vertical: VerticalAlignment.bottom,
+      ),
+      // this.customLogoAlignment = const CustomMapAlignment(
+      //   left: 0,
+      //   right: 0,
+      //   top: 0,
+      //   bottom: 0,
+      // ),
       this.focusRect,
       this.onMapCreated,
       this.onMapTap,
@@ -80,6 +87,9 @@ class YandexMap extends StatefulWidget {
   /// Set logo alignment on the map
   final MapAlignment logoAlignment;
 
+  /// Set custom logo alignment on the map
+  // final CustomMapAlignment customLogoAlignment;
+
   /// Allows to set map focus to a certain rectangle instead of the whole map
   /// For more info refer to https://yandex.com/dev/maps/mapkit/doc/ios-ref/full/Classes/YMKMapWindow.html#focusRect
   final ScreenRect? focusRect;
@@ -130,8 +140,7 @@ class _YandexMapState extends State<YandexMap> {
 
   /// Root object which contains all [MapObject] which were added to the map by user
   MapObjectCollection _mapObjectCollection = MapObjectCollection(
-      mapId: const MapObjectId('root_map_object_collection'),
-      mapObjects: const []);
+      mapId: const MapObjectId('root_map_object_collection'), mapObjects: const []);
 
   /// All [MapObject] which were created natively
   ///
@@ -145,15 +154,13 @@ class _YandexMapState extends State<YandexMap> {
   List<MapObject> get _allMapObjects =>
       _mapObjectCollection.mapObjects + _nonRootMapObjects;
 
-  final Completer<YandexMapController> _controller =
-      Completer<YandexMapController>();
+  final Completer<YandexMapController> _controller = Completer<YandexMapController>();
 
   @override
   void initState() {
     super.initState();
     _yandexMapOptions = _YandexMapOptions.fromWidget(widget);
-    _mapObjectCollection =
-        _mapObjectCollection.copyWith(mapObjects: widget.mapObjects);
+    _mapObjectCollection = _mapObjectCollection.copyWith(mapObjects: widget.mapObjects);
   }
 
   @override
@@ -189,8 +196,8 @@ class _YandexMapState extends State<YandexMap> {
   void _updateMapObjects() async {
     final updatedMapObjectCollection =
         _mapObjectCollection.copyWith(mapObjects: widget.mapObjects);
-    final updates = MapObjectUpdates.from(
-        {_mapObjectCollection}, {updatedMapObjectCollection});
+    final updates =
+        MapObjectUpdates.from({_mapObjectCollection}, {updatedMapObjectCollection});
 
     final controller = await _controller.future;
 
@@ -205,8 +212,7 @@ class _YandexMapState extends State<YandexMap> {
       if (AndroidYandexMap.useAndroidViewSurface) {
         return PlatformViewLink(
             viewType: YandexMap._viewType,
-            surfaceFactory:
-                (BuildContext context, PlatformViewController controller) {
+            surfaceFactory: (BuildContext context, PlatformViewController controller) {
               return AndroidViewSurface(
                 controller: controller as AndroidViewController,
                 gestureRecognizers: widget.gestureRecognizers,
@@ -259,8 +265,7 @@ class _YandexMapState extends State<YandexMap> {
   Map<String, dynamic> _creationParams() {
     final mapOptions = _yandexMapOptions.toJson();
     final mapObjects = MapObjectUpdates.from(
-        {_mapObjectCollection.copyWith(mapObjects: [])},
-        {_mapObjectCollection}).toJson();
+        {_mapObjectCollection.copyWith(mapObjects: [])}, {_mapObjectCollection}).toJson();
 
     return {'mapOptions': mapOptions, 'mapObjects': mapObjects};
   }
@@ -277,6 +282,7 @@ class _YandexMapOptions {
         fastTapEnabled = map.fastTapEnabled,
         mode2DEnabled = map.mode2DEnabled,
         logoAlignment = map.logoAlignment,
+        // customLogoAlignment = map.customLogoAlignment,
         focusRect = map.focusRect,
         mapType = map.mapType,
         poiLimit = map.poiLimit;
@@ -297,6 +303,8 @@ class _YandexMapOptions {
 
   final MapAlignment logoAlignment;
 
+  // final CustomMapAlignment customLogoAlignment;
+
   final ScreenRect? focusRect;
 
   final MapType mapType;
@@ -313,6 +321,7 @@ class _YandexMapOptions {
       'fastTapEnabled': fastTapEnabled,
       'mode2DEnabled': mode2DEnabled,
       'logoAlignment': logoAlignment.toJson(),
+      // 'customLogoAlignment': customLogoAlignment.toJson(),
       'focusRect': focusRect?.toJson(),
       'mapType': mapType.index,
       'poiLimit': poiLimit
